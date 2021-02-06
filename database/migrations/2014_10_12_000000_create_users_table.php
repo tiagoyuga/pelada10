@@ -14,7 +14,7 @@ class CreateUsersTable extends Migration
     public function up()
     {
         Schema::create('users', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
             $table->string('name');
             #$table->string('email')->unique();
 
@@ -43,7 +43,16 @@ class CreateUsersTable extends Migration
             $table->integer('selected_event')->nullable();
 
             $table->rememberToken();
+
+            $table->integer('user_creator_id')->unsigned()->nullable();
+            $table->foreign('user_creator_id')->references('id')->on('users')->onDelete('restrict');
+            $table->integer('user_updater_id')->unsigned()->nullable();
+            $table->foreign('user_updater_id')->references('id')->on('users')->onDelete('restrict');
+            $table->integer('user_eraser_id')->unsigned()->nullable();
+            $table->foreign('user_eraser_id')->references('id')->on('users')->onDelete('restrict');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    Controller
- * @author     Rupert Brasil Lustosa <rupertlustosa@gmail.com>
+ * @author     Tiago Teixeira de Sousa <tiagoteixeira2214@gmail.com>
  * @date       05/02/2021 21:38:30
  */
 
@@ -9,13 +9,17 @@ declare(strict_types=1);
 
 namespace App\Models;
 
-use App\Traits\CreationDataTrait;
-use Illuminate\Database\Eloquent\Model;
+#use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Foundation\Auth\User as Authenticatable;
+use Illuminate\Notifications\Notifiable;
 
 
-class User extends Model
+#class User extends Model
+class User extends Authenticatable
 {
 
+    use Notifiable, SoftDeletes;
 
     /**
      * Indicates if the model should be timestamped.
@@ -46,6 +50,7 @@ class User extends Model
         'phone2',
         'whatsapp',
         'image',
+        'birth',
         'first_access',
         'active',
         'is_dev',
@@ -81,7 +86,7 @@ class User extends Model
      * @var array
      */
 
-    protected $hidden = [];
+    protected $hidden = ['password', 'remember_token',];
 
     /**
      * The attributes that should be visible in arrays.
@@ -95,11 +100,45 @@ class User extends Model
      *
      * @var array
      */
-    protected $dates = [];
+    protected $dates = ['birth'];
 
     # Query Scopes
 
     # Relationships
 
     # Accessors & Mutators
+
+    public function creator()
+    {
+
+        return $this->belongsTo(User::class, 'user_creator_id')->select('id', 'name');
+    }
+
+    public function updater()
+    {
+
+        return $this->belongsTo(User::class, 'user_updater_id')->select('id', 'name');
+    }
+
+    public function creationData()
+    {
+        $info = [];
+
+        if ($this->user_creator_id) {
+
+            $info[] = 'Criado por ' . $this->creator->name . ' em ' . $this->created_at->format('d/m/Y H:i');
+        }
+
+        if ($this->created_at != $this->updated_at && $this->user_updater_id) {
+
+            $info[] = 'Atualizado por ' . $this->updater->name . ' em ' . $this->updated_at->format('d/m/Y H:i');
+        }
+
+        return $info;
+    }
+
+    public function selectedModule()
+    {
+        #return $this->hasOne(UserType::class)->whereType(Auth::user()->selected_module);
+    }
 }

@@ -14,7 +14,7 @@ class CreateEventsTable extends Migration
     public function up()
     {
         Schema::create('events', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
 
             $table->string('name')->nullable();
             $table->string('address')->nullable();
@@ -27,7 +27,15 @@ class CreateEventsTable extends Migration
             $table->string('lat')->nullable();
             $table->string('long')->nullable();
 
+            $table->integer('user_creator_id')->unsigned()->nullable();
+            $table->foreign('user_creator_id')->references('id')->on('users')->onDelete('restrict');
+            $table->integer('user_updater_id')->unsigned()->nullable();
+            $table->foreign('user_updater_id')->references('id')->on('users')->onDelete('restrict');
+            $table->integer('user_eraser_id')->unsigned()->nullable();
+            $table->foreign('user_eraser_id')->references('id')->on('users')->onDelete('restrict');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

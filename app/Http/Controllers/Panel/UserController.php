@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    Controller
- * @author     Rupert Brasil Lustosa <rupertlustosa@gmail.com>
+ * @author     Tiago Teixeira de Sousa <tiagoteixeira2214@gmail.com>
  * @date       05/02/2021 21:38:30
  */
 
@@ -32,7 +32,7 @@ class UserController extends ApiBaseController
     {
 
         $this->service = $service;
-        $this->label = 'User';
+        $this->label = 'Profile';
     }
 
     public function index(): View
@@ -40,7 +40,7 @@ class UserController extends ApiBaseController
 
         $this->log(__METHOD__);
 
-        #$this->authorize('viewAny', User::class);
+        $this->authorize('viewAny', User::class);
 
         $data = $this->service->paginate(20);
 

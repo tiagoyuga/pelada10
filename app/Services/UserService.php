@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    Services
- * @author     Rupert Brasil Lustosa <rupertlustosa@gmail.com>
+ * @author     Tiago Teixeira de Sousa <tiagoteixeira2214@gmail.com>
  * @date       05/02/2021 21:38:30
  */
 
@@ -14,6 +14,7 @@ use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserService
 {
@@ -58,13 +59,17 @@ class UserService
 
     public function create(array $data): User
     {
-
         return DB::transaction(function () use ($data) {
 
             $model = new User();
             $model->fill($data);
             #$model->user_creator_id = \Auth::id();
             #$model->user_updater_id = \Auth::id();
+
+            if (!empty($data["password"])) {
+                $model->password = Hash::make($data["password"]);
+            }
+
             $model->save();
 
             return $model;

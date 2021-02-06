@@ -14,24 +14,33 @@ class CreateEventsUserTable extends Migration
     public function up()
     {
         Schema::create('events_user', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
 
-            $table->bigInteger('user_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
 
-            $table->bigInteger('event_id')->unsigned();
+            $table->integer('event_id')->unsigned();
             $table->foreign('event_id')->references('id')->on('events');
 
             $table->boolean('is_admin')->default(false);
             $table->dateTime('expiration_date')->nullable();
 
-            $table->bigInteger('owner_id')->unsigned()->nullable();
+            $table->integer('owner_id')->unsigned()->nullable();
             $table->foreign('owner_id')->references('id')->on('users');
 
-            $table->bigInteger('updated_user_id')->unsigned()->nullable();#quem deu permissao de admin
+            $table->integer('updated_user_id')->unsigned()->nullable();#quem deu permissao de admin
             $table->foreign('updated_user_id')->references('id')->on('users');
 
+            $table->integer('user_creator_id')->unsigned()->nullable();
+            $table->foreign('user_creator_id')->references('id')->on('users')->onDelete('restrict');
+            $table->integer('user_updater_id')->unsigned()->nullable();
+            $table->foreign('user_updater_id')->references('id')->on('users')->onDelete('restrict');
+            $table->integer('user_eraser_id')->unsigned()->nullable();
+            $table->foreign('user_eraser_id')->references('id')->on('users')->onDelete('restrict');
+
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

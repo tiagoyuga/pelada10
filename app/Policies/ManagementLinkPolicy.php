@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    Controller
- * @author     Rupert Brasil Lustosa <rupertlustosa@gmail.com>
+ * @author     Tiago Teixeira de Sousa <tiagoteixeira2214@gmail.com>
  * @date       14/08/2019 21:23:02
  */
 

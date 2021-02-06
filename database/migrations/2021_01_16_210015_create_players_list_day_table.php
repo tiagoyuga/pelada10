@@ -14,12 +14,12 @@ class CreatePlayersListDayTable extends Migration
     public function up()
     {
         Schema::create('players_list_day', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
 
-            $table->bigInteger('games_day_id')->unsigned();
+            $table->integer('games_day_id')->unsigned();
             $table->foreign('games_day_id')->references('id')->on('games_days');
 
-            $table->bigInteger('user_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->integer('order');#ordem de chegada
@@ -28,7 +28,15 @@ class CreatePlayersListDayTable extends Migration
 
             $table->boolean('payment')->default(false);#controlar quem já pagou ou não
 
+            $table->integer('user_creator_id')->unsigned()->nullable();
+            $table->foreign('user_creator_id')->references('id')->on('users')->onDelete('restrict');
+            $table->integer('user_updater_id')->unsigned()->nullable();
+            $table->foreign('user_updater_id')->references('id')->on('users')->onDelete('restrict');
+            $table->integer('user_eraser_id')->unsigned()->nullable();
+            $table->foreign('user_eraser_id')->references('id')->on('users')->onDelete('restrict');
+
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

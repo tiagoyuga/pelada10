@@ -14,9 +14,9 @@ class CreateConfigurationTable extends Migration
     public function up()
     {
         Schema::create('configuration', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
 
-            $table->bigInteger('event_id')->unsigned();
+            $table->integer('event_id')->unsigned();
             $table->foreign('event_id')->references('id')->on('events');
 
             $table->integer('players')->unsigned();#quantidade de atletas por time
@@ -28,7 +28,16 @@ class CreateConfigurationTable extends Migration
             $table->integer('max_players_list_limit')->unsigned()->nullable();#quantidade máxima de atletas permitida na lista.
             $table->integer('count_players_leave_both')->unsigned()->nullable();#quantidade de atletas para sair os 2 times caso empate
 
+            $table->integer('user_creator_id')->unsigned()->nullable();
+            $table->foreign('user_creator_id')->references('id')->on('users')->onDelete('restrict');
+            $table->integer('user_updater_id')->unsigned()->nullable();
+            $table->foreign('user_updater_id')->references('id')->on('users')->onDelete('restrict');
+            $table->integer('user_eraser_id')->unsigned()->nullable();
+            $table->foreign('user_eraser_id')->references('id')->on('users')->onDelete('restrict');
+
             $table->timestamps();
+
+            $table->softDeletes();
         });
     }
 

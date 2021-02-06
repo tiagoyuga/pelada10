@@ -1,7 +1,7 @@
 <?php
 /**
  * @package    Api
- * @author     Rupert Brasil Lustosa <rupertlustosa@gmail.com>
+ * @author     Tiago Teixeira de Sousa <tiagoteixeira2214@gmail.com>
  * @date       05/02/2021 21:36:00
  */
 

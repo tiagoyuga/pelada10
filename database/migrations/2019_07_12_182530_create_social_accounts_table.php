@@ -14,9 +14,9 @@ class CreateSocialAccountsTable extends Migration
     public function up()
     {
         Schema::create('social_accounts', function (Blueprint $table) {
-            $table->bigIncrements('id');
+            $table->increments('id');
 
-            $table->bigInteger('user_id')->unsigned();
+            $table->integer('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users');
 
             $table->string('provider_user_id');
@@ -25,6 +25,7 @@ class CreateSocialAccountsTable extends Migration
             $table->string('picture')->nullable();
 
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 
