@@ -18,10 +18,11 @@ use App\Traits\LogActivity;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use JsValidator;
 
-class UserController extends ApiBaseController
+class ProfileController extends ApiBaseController
 {
     use LogActivity;
 
@@ -32,58 +33,14 @@ class UserController extends ApiBaseController
     {
 
         $this->service = $service;
-        $this->label = 'Usuários';
+        $this->label = 'Perfil';
     }
 
-    public function index(): View
+    public function edit(): View
     {
-
         $this->log(__METHOD__);
 
-        $this->authorize('viewAny', User::class);
-
-        $data = $this->service->paginate(20);
-
-        return view('panel.users.index')
-            ->with([
-                'data' => $data,
-                'label' => $this->label,
-            ]);
-    }
-
-    public function create(): View
-    {
-
-        $this->log(__METHOD__);
-
-        $this->authorize('create', User::class);
-
-        $validatorRequest = new UserStoreRequest();
-        $validator = JsValidator::make($validatorRequest->rules(), $validatorRequest->messages());
-
-        return view('panel.users.form')
-            ->with([
-                'validator' => $validator,
-                'label' => $this->label,
-            ]);
-    }
-
-    public function store(UserStoreRequest $userStoreRequest)
-    {
-
-        $this->service->create($userStoreRequest->all());
-
-        return redirect()->route('users.' . request('routeTo'))
-            ->with([
-                'message' => 'Criado com sucesso',
-                'messageType' => 's',
-            ]);
-    }
-
-    public function edit(User $user): View
-    {
-
-        $this->log(__METHOD__);
+        $user = Auth::user();
 
         $this->authorize('update', $user);
 
@@ -110,28 +67,6 @@ class UserController extends ApiBaseController
                 'message' => 'Atualizado com sucesso',
                 'messageType' => 's',
             ]);
-    }
-
-    public function destroy(User $user): JsonResponse
-    {
-
-        $this->log(__METHOD__);
-
-        try {
-
-            if (!\Auth::user()->can('delete', $user)) {
-
-                return $this->sendUnauthorized();
-            }
-
-            $this->service->delete($user);
-
-            return $this->sendResponse([]);
-
-        } catch (Exception $exception) {
-
-            return $this->sendError('Server Error.', $exception);
-        }
     }
 
     public function show(User $user): JsonResponse

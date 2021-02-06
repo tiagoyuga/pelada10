@@ -32,41 +32,15 @@ class LoginSocialController extends Controller
     }
 
     /**
-     * Obtain the user information from GitHub.
-     *
-     * @return \Illuminate\Http\Response
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    /*public function callback($provider)
-    {
-
-        $this->validateProvider($provider);
-
-        $userSocial = Socialite::driver($provider)->stateless()->user();
-
-        $user = User::where(['email' => $userSocial->getEmail()])->first();
-
-        if ($user) {
-            Auth::login($user);
-            return redirect('/');
-        } else {
-            $user = User::create([
-                'name' => $userSocial->getName(),
-                'email' => $userSocial->getEmail(),
-                'image' => '',#$userSocial->getAvatar(),
-                'provider_id' => $userSocial->getId(),
-                'provider' => $provider,
-            ]);
-            return redirect()->route('home');
-        }
-    }*/
-
-    public function loginSocialGoogle()
+    public function loginSocialGoogle(): \Symfony\Component\HttpFoundation\RedirectResponse
     {
         return Socialite::driver('google')->redirect();
     }
 
     //callback
-    public function getAuthenticatedLoginSocial()
+    public function getAuthenticatedLoginSocial(): \Illuminate\Http\RedirectResponse
     {
         try {
 
@@ -77,13 +51,12 @@ class LoginSocialController extends Controller
             $user = $userService->findOrNewSocialUser($provider);
 
             Auth::login($user);
-dd('Deu certo');
-            if ($user->first_access) {
 
-                return redirect()->to(route('home'));
+            if ($user->first_access) {
+                return redirect()->to(route('home_panel'));
             }
 
-            return redirect()->to('/home');
+            return redirect()->to(route('home_panel'));
 
         } catch (\Exception $e) {
 

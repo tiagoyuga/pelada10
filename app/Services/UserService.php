@@ -9,12 +9,14 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\SocialAccount;
 use App\Models\User;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
+use Laravel\Socialite\Facades\Socialite;
 
 class UserService
 {
@@ -102,5 +104,102 @@ class UserService
             ->pluck('name', 'id')
             ->toArray();
         //});
+    }
+
+    public function profileUpdate(array $data, User $model): User
+    {
+
+        if (!empty($data["password"])) {
+            $model->password = Hash::make($data["password"]);
+        }
+
+        $image = uploadWithCrop('image', 'users');
+
+        if ($image !== null) {
+            $data['image'] = $image;
+        } elseif (request('delete_image')) {
+
+            $data['image'] = null;
+        }
+
+        $model->fill($data);
+        $model->save();
+
+        return $model;
+    }
+
+    /**
+     * @param $token
+     * @param $provider [facebook, google]
+     * @return
+     * @throws \ErrorException
+     */
+    public function getAuthSocialData($token, $provider) #: Socialite
+    {
+        if (!$token) {
+            throw new \ErrorException('token não informado', 401);
+        }
+
+        $socialAuthUserDetails = Socialite::driver($provider)->userFromToken($token);
+
+        if (!$socialAuthUserDetails) {
+            throw new \ErrorException('Dados não encontrados', 404);
+        }
+
+        return $socialAuthUserDetails;
+    }
+
+    /**
+     * @param $provider
+     * @return User
+     */
+    public function findOrNewSocialUser($provider): User
+    {
+        $userSocialData = Socialite::driver($provider)->user();
+
+        $socialAccount = SocialAccount::where('provider_user_id', '=', $userSocialData->getId())->first();
+
+        if ($socialAccount) {
+
+            $user = $this->find((int)$socialAccount->user_id);
+
+        } else {
+
+            $user = User::where('email', '=', $userSocialData->getEmail())->first();
+
+            if (!$user) {
+
+                $user = $this->create([
+                    'name' => $userSocialData->getName(),
+                    'email' => $userSocialData->getEmail(),
+                ]);
+            }
+
+            SocialAccount::create([
+                'user_id' => $user->id,
+                'provider_user_id' => $userSocialData->getId(),
+                'provider' => $provider,
+                'picture' => $userSocialData->getAvatar(),
+            ]);
+        }
+
+        return $user;
+    }
+
+    public function authenticateUserInApi($user)
+    {
+        Auth::loginUsingId($user->id);
+
+        $user = Auth::user();
+
+        $token = $user->createToken('AppName')->accessToken;
+
+        #return response()->json([
+        return [
+            #'user' => new UserResource($user),
+            'user' => collect($user),
+            'token' => $token,
+            'generic_error' => null,
+        ];
     }
 }

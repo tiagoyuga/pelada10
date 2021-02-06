@@ -7,17 +7,17 @@
 
 declare(strict_types=1);
 
-namespace App\Http\Controllers\Panel;
+namespace App\Http\Controllers\Web;
 
 use App\Http\Controllers\Api\ApiBaseController;
-use App\Http\Requests\ClientStoreRequest;
-use App\Http\Requests\ClientUpdateRequest;
+#use App\Http\Requests\ClientStoreRequest;
+#use App\Http\Requests\ClientUpdateRequest;
 use App\Models\User;
 use App\Services\CityService;
-use App\Services\ClientService;
+#use App\Services\ClientService;
 use App\Traits\ImageCrop;
 use App\Traits\LogActivity;
-use Auth;
+#use Auth;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -32,10 +32,10 @@ class ProfileController extends ApiBaseController
     private $label;
     private $cropModule;
 
-    public function __construct(ClientService $service)
+    public function __construct(/*ClientService $service*/)
     {
 
-        $this->service = $service;
+        #$this->service = $service;
         $this->label = 'Perfil';
         $this->cropModule = "web";
     }

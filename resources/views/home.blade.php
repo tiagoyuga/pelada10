@@ -3,7 +3,7 @@
 
 @section('content')
     <div class="wrapper wrapper-content">
-        <div class="container">
+        <div class="container col-12">
             <div class="row">
                 <div class="col-md-2">
                     <div class="ibox ">
