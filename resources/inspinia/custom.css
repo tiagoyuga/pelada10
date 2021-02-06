@@ -1,0 +1,24 @@
+.top-navigation .navbar-brand {
+    background: none;
+}
+
+.skin-1 .navbar-static-top {
+    background: #3E425B;
+}
+
+.top-navigation .navbar .nav > li.active {
+    background: none;
+}
+
+.top-navigation .nav > li a:focus, .top-navigation .nav > li a:hover {
+    background: #424760;
+    color: #fff;
+}
+
+.skin-1 #page-wrapper {
+    background: #FAFAFA;
+}
+
+.ibox-title {
+    min-height: 58px;
+}

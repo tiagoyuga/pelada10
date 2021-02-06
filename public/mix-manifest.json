@@ -1,0 +1,20 @@
+{
+    "/js/app.js": "/js/app.js",
+    "/js/app.js.map": "/js/app.js.map",
+    "/js/manifest.js": "/js/manifest.js",
+    "/js/manifest.js.map": "/js/manifest.js.map",
+    "/js/vendor.js": "/js/vendor.js",
+    "/js/vendor.js.map": "/js/vendor.js.map",
+    "/css/app.css": "/css/app.css",
+    "/css/datepicker.css": "/css/datepicker.css",
+    "/css/theme.css": "/css/theme.css",
+    "/js/custom-datetimepicker.js": "/js/custom-datetimepicker.js",
+    "/css/custom-datetimepicker.css": "/css/custom-datetimepicker.css",
+    "/js/custom-masks.js": "/js/custom-masks.js",
+    "/js/moment.js": "/js/moment.js",
+    "/js/custom-datepicker.js": "/js/custom-datepicker.js",
+    "/js/custom-select2.js": "/js/custom-select2.js",
+    "/css/select2.css": "/css/select2.css",
+    "/js/functions.js": "/js/functions.js",
+    "/js/jeditable.js": "/js/jeditable.js"
+}
