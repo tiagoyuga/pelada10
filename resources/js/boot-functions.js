@@ -32,7 +32,6 @@ function unBlock(element = false) {
 }
 
 function showMessage(type, m, time) {
-
     if (isNaN(time)) {
 
         time = 7;

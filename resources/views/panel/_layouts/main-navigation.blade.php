@@ -64,7 +64,7 @@
                         Grupos de Futebol
                     </a>
                     <ul role="menu" class="dropdown-menu">
-                        <li><a href="#">Grupos (Eventos)</a></li>
+                        <li><a href="{{ route('events.index') }}">Grupos (Eventos)</a></li>
                         <li><a href="#">Dias de Futebol</a>
                         <li><a href="#">Lista de Atletas</a>
                         <li><a href="#">Histórico de Jogos</a>

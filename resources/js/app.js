@@ -6,8 +6,6 @@
 
 require('./bootstrap');
 
-import TDate from './boot-vue-functions'
-
 window.Vue = require('vue');
 
 /**
@@ -18,28 +16,10 @@ window.Vue = require('vue');
  * Eg. ./components/ExampleComponent.vue -> <example-component></example-component>
  */
 
-Vue.component('link-destroy-component', require('./components/LinkDestroyComponent').default);
+// const files = require.context('./', true, /\.vue$/i)
+// files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
 
-//Vue.component('group-product-component', require('./components/GroupProductComponent').default);
-//Vue.component('product-main-component', require('./components/ProductMainComponent').default);
-//Vue.component('product-item-component', require('./components/ProductItemComponent').default);
-
-//Vue.component('select2-vue-component', require('./components/Select2VueComponent').default);
-
-Vue.component(
-    'passport-clients',
-    require('./components/passport/Clients.vue').default
-);
-
-Vue.component(
-    'passport-authorized-clients',
-    require('./components/passport/AuthorizedClients.vue').default
-);
-
-Vue.component(
-    'passport-personal-access-tokens',
-    require('./components/passport/PersonalAccessTokens.vue').default
-);
+Vue.component('example-component', require('./components/ExampleComponent.vue').default);
 
 /**
  * Next, we will create a fresh Vue application instance and attach it to
@@ -49,13 +29,4 @@ Vue.component(
 
 const app = new Vue({
     el: '#app',
-    methods: {
-        dateFormatBR: TDate.dateBR,
-        dateFormatUS: TDate.dateUS,
-    }
-});
-
-$('#app').tooltip({
-    //selector: '[data-toggle="tooltip"]'
-    //selector: "[data-tooltip=tooltip]",
 });

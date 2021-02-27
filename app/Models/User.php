@@ -108,6 +108,11 @@ class User extends Authenticatable
 
     # Accessors & Mutators
 
+    public function canAuthInPanel()
+    {
+        return collect(['1', '2']);
+    }
+
     public function creator()
     {
 

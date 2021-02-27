@@ -3,6 +3,7 @@
 /public/storage
 /storage/*.key
 /vendor
+/vendor/*
 .env
 .env.backup
 .phpunit.result.cache
@@ -18,3 +19,6 @@ yarn-error.log
 /resources/views/rlustosa/
 /app/Http/Controllers/Rlustosa/
 .idea
+/public/vendor
+/resources/views/vendor
+/resources/lang/vendor/log-viewer

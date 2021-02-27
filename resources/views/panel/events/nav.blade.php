@@ -3,21 +3,21 @@
         <h2>{{ $label }}</h2>
         <ol class="breadcrumb">
             <li class="breadcrumb-item">
-                <a href="{{ route('home') }}">Início</a>
+                <a href="{{ route('dashboard') }}">Início</a>
             </li>
             <li class="breadcrumb-item active">
-                <strong><a href="{{ route('profile') }}">{{ $label }}</a></strong>
+                <strong><a href="{{ route('events.index') }}">{{ $label }}</a></strong>
             </li>
         </ol>
     </div>
 <!--    <div class="col-lg-4">
         <div class="btn-group pull-right" style="margin-top: 30px;">
-            <a class="btn btn-default" href="{{ route('users.index') }}">
+            <a class="btn btn-default" href="{{ route('events.index') }}">
                 <i class="fa fa-list-ul"></i>
                 Listar
             </a>
-            @if(Auth::user()->can('create', \App\Models\User::class))
-                <a class="btn btn-primary" id="ln_adicionar" href="{{ route('users.create') }}">
+            @if(Auth::user()->can('create', \App\Models\Event::class))
+                <a class="btn btn-primary" id="ln_adicionar" href="{{ route('events.create') }}">
                     <i class="fa fa-plus-circle"></i> Novo
                 </a>
             @endif

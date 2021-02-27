@@ -1,40 +1,36 @@
 <?php
 
-Route::get('/', function () {
-    return redirect()->to('/login');
-});
-
-Route::get('/home', 'HomeController@index');
-
-Route::get('social-auth-google', 'Auth\LoginSocialController@loginSocialGoogle')->name('social-auth-google');
-Route::get('social-auth-callback', 'Auth\LoginSocialController@getAuthenticatedLoginSocial')->name('social-auth-callback');
-
-Route::match(['get', 'post'], '/loginManual', 'Auth\LoginController@login')->name('loginManual');
-Route::match(['get', 'post'], '/logoutManual', 'Auth\LoginController@logout')->name('logoutManual');
-
 Route::namespace('Panel')
-    ->middleware(['auth'])
+    ->middleware(['auth.panel', 'auth', 'checkFirstAccess'])
     ->prefix('panel')
     ->group(function ($panel) {
-
-        #$panel->get('/', 'DashboardController@dashboard')->name("dashboard");
-        #$panel->get('/iframe', 'DashboardController@iframe')->name("iframe");
 
         $panel->get('/', 'HomeController@index')->name('home_panel');
         $panel->get('/home', 'HomeController@index')->name('home_panel');
         $panel->get('/home', 'HomeController@index')->name('home');
 
-        #$panel->get('/dashboard', 'DashboardController@dashboard')->name("dashboard");
         $panel->get('/dashboard', 'HomeController@dashboard')->name("dashboard");
-
-        $panel->get('/iframe', 'HomeController@iframe')->name("iframe");
 
         /* panel/profile */
         $panel->get('profile', 'ProfileController@edit')->name('profile');
-        $panel->put('profile', 'ProfileController@update')->name('profileUpdate');
+        $panel->put('profile/{user}', 'ProfileController@update')->name('profileUpdate');
 
-        #users
-        $panel->resource('users', UserController::class);
+        /*panel/users*/
+        Route::group(['prefix' => '/',/*'middleware' => ['checkFirstAccess']*/], function ($panel) {
+            #users
+            $panel->put('administrators/image', 'UserController@updateImageCrop')->name('administrators.updateImageCrop');
+            $panel->get('administrators/crop/{id}', 'UserController@imageCrop')->name('users.imageCrop');
+            $panel->resource('users', UserController::class);
+
+            /* panel/events */
+            $panel->resource('events', EventController::class);
+
+            # rotas para panel
+
+        });
+
+
+        #LIXO
         #$panel->put('users', 'UserController@update')->name('products.updateImageCrop');
 
         /* panel/users */
@@ -64,8 +60,6 @@ Route::namespace('Panel')
 
         /* panel/management_indications */
         #$panel->resource('management_indications', ManagementIndicationsController::class)->only(['index']);
-
-        # rotas para panel
 
         /*
          * Rotas de crop de imagens

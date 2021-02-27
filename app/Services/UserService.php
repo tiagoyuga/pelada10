@@ -11,6 +11,7 @@ namespace App\Services;
 
 use App\Models\SocialAccount;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
@@ -80,8 +81,12 @@ class UserService
 
     public function update(array $data, User $model): User
     {
+        if(isset($data['birth']) && !empty($data['birth'])) {
+            $data['birth'] = Carbon::parse($data['birth'])->format('Y-m-d');
+        }
 
         $model->fill($data);
+
         #$model->user_updater_id = \Auth::id();
         $model->save();
 

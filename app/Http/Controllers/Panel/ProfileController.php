@@ -15,6 +15,7 @@ use App\Http\Requests\UserUpdateRequest;
 use App\Models\User;
 use App\Services\UserService;
 use App\Traits\LogActivity;
+use Carbon\Carbon;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
@@ -57,12 +58,13 @@ class ProfileController extends ApiBaseController
 
     public function update(UserUpdateRequest $request, User $user): RedirectResponse
     {
-
         $this->log(__METHOD__);
 
-        $this->service->update($request->all(), $user);
+        $data = $request->all();
+        $data['first_access'] = 0;
+        $this->service->update($data, $user);
 
-        return redirect()->route('users.index')
+        return redirect()->route('profile')
             ->with([
                 'message' => 'Atualizado com sucesso',
                 'messageType' => 's',

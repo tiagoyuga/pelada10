@@ -49,6 +49,7 @@
     </style>
 </head>
 <body class="top-navigation skin-1 pace-done">
+
 <div id="app">
     <!-- Wrapper-->
     <div id="wrapper">
@@ -73,13 +74,15 @@
     <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
         @csrf
     </form>
+</div>
 
     <script src="{{ mix('/js/manifest.js') }}"></script>
     <script src="{{ mix('/js/vendor.js') }}"></script>
     <script src="{{ mix('/js/app.js') }}"></script>
+
     <script src="{{ mix('/js/custom-masks.js') }}"></script>
     <script src="{{ mix('/js/moment.js') }}"></script>
-    {{--<script src="{{ mix('/js/blockUI.js') }}"></script>--}}
+{{--    <script src="{{ mix('/js/blockUI.js') }}"></script>--}}
     <script src="{{ mix('/js/functions.js') }}"></script>
 
     <script src="{{ mix('/js/custom-select2.js') }}"></script>
@@ -89,7 +92,7 @@
 
     @section('scripts')
     @show
-    <script>
+    <script type="text/javascript">
         $(function () {
             //$('[data-toggle="tooltip"]').tooltip();
             //$('[data-tooltip=tooltip"]').tooltip();
@@ -105,5 +108,7 @@
             }
         });
     </script>
+
 </body>
+
 </html>

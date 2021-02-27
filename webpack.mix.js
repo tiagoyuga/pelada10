@@ -11,9 +11,14 @@ const mix = require('laravel-mix');
  |
  */
 
-mix.js('resources/js/app.js', 'public/js/app.js')
+/*mix.js('resources/js/app.js', 'public/js/app.js')
     .extract(['jquery', 'bootstrap', 'toastr'])
-    .sourceMaps();
+    .sourceMaps();*/
+
+mix.js('resources/js/app.js', 'public/js')
+    .extract(['jquery', 'bootstrap', 'toastr'])
+    .sourceMaps()
+    .version();
 
 mix.styles([
     'node_modules/bootstrap/dist/css/bootstrap.css',
