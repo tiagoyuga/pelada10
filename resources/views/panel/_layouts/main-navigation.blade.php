@@ -1,6 +1,6 @@
 @php
-    $userIsDev = Auth::user()->is_dev;
-    $userIsAdmin = true;
+    $isDev = Auth::user()->is_dev;
+    $isAdmin = (Auth::user()->is_dev || Auth::user()->isAdminOfSelectedEvent());
 @endphp
 
 <div class="row border-bottom white-bg">
@@ -27,7 +27,7 @@
                     </a>
                 </li>
 
-                @if($userIsAdmin)
+                @if($isAdmin)
 
                     <li class="dropdown {{ isActiveRoute(['users.*', 'configurations.*']) }}">
                         <a aria-expanded="false" role="button" href="#" class="dropdown-toggle" data-toggle="dropdown">
@@ -40,7 +40,7 @@
                                 <a href="#">Usuários</a>
                             </li>
                             <li class="bg-muted">
-                                <a href="#">Configurações</a>
+                                <a href="{{ route('configuration.edit', Auth::user()->selectedEventConfig ? Auth::user()->selectedEventConfig->id : 0) }}">Configurações</a>
                             </li>
 
                             <li class="bg-muted">

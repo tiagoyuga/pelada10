@@ -2,7 +2,7 @@
 /**
  * @package    Controller
  * @author     Tiago Teixeira de Sousa <tiagoteixeira2214@gmail.com>
- * @date       27/02/2021 03:15:01
+ * @date       05/03/2021 03:01:12
  */
 
 declare(strict_types=1);
@@ -13,7 +13,7 @@ use App\Traits\CreationDataTrait;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-class Event extends Model
+class EventsUser extends Model
 {
     use SoftDeletes;
 
@@ -29,7 +29,7 @@ class Event extends Model
      *
      * @var string
      */
-    protected $table = 'events';
+    protected $table = 'events_user';
 
     /**
      * The attributes that are mass assignable.
@@ -37,15 +37,11 @@ class Event extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'address',
-        'neighborhood',
-        'number',
-        'phone1',
-        'phone2',
-        'city_name',
-        'lat',
-        'long',
+        'user_id',
+        'event_id',
+        'is_admin',
+        'owner_id',
+        'updated_user_id',
         'user_creator_id',
         'user_updater_id',
         'user_eraser_id',
@@ -57,15 +53,11 @@ class Event extends Model
      * @var array
      */
     /*protected $guarded = [
-        'name',
-        'address',
-        'neighborhood',
-        'number',
-        'phone1',
-        'phone2',
-        'city_name',
-        'lat',
-        'long',
+        'user_id',
+        'event_id',
+        'is_admin',
+        'owner_id',
+        'updated_user_id',
         'user_creator_id',
         'user_updater_id',
         'user_eraser_id',
@@ -99,9 +91,13 @@ class Event extends Model
 
     # Accessors & Mutators
 
-    public function eventsUser()
+    public function event()
     {
-        #return $this->hasOne(Event::class, 'event_id', 'id');
-        return $this->belongsTo(EventsUser::class, 'id', 'event_id');
+        return $this->belongsTo(Event::class, 'event_id', 'id');
+    }
+
+    public function config()
+    {
+        return $this->belongsTo(Configuration::class, 'event_id', 'event_id');
     }
 }

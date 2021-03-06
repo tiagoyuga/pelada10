@@ -2,29 +2,26 @@
 /**
  * @package    Services
  * @author     Tiago Teixeira de Sousa <tiagoteixeira2214@gmail.com>
- * @date       27/02/2021 03:15:02
+ * @date       05/03/2021 03:01:12
  */
 
 declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\Configuration;
-use App\Models\Event;
 use App\Models\EventsUser;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class EventService
+class EventsUserService
 {
 
     private function buildQuery(): Builder
     {
 
-        $query = Event::query();
+        $query = EventsUser::query();
 
         $query->when(request('id'), function ($query, $id) {
 
@@ -35,10 +32,6 @@ class EventService
 
             return $query->where('id', 'LIKE', '%' . $search . '%');
         });
-
-        //lista somente os eventos que o usuário esta vinculado
-        $query->join('events_user', 'events_user.event_id', '=', 'events.id')
-            ->where('events_user.user_id', '=', Auth::id());
 
         return $query;
     }
@@ -55,47 +48,30 @@ class EventService
         return $this->buildQuery()->get();
     }
 
-    public function find(int $id): ?Event
+    public function find(int $id): ?EventsUser
     {
 
-        //return Cache::remember('Event_find_' . $id, config('cache.cache_time'), function () use ($id) {
-        return Event::find($id);
+        //return Cache::remember('EventsUser_find_' . $id, config('cache.cache_time'), function () use ($id) {
+        return EventsUser::find($id);
         //});
     }
 
-    public function create(array $data): Event
+    public function create(array $data): EventsUser
     {
+
         return DB::transaction(function () use ($data) {
 
-            $model = new Event();
+            $model = new EventsUser();
             $model->fill($data);
             #$model->user_creator_id = \Auth::id();
             #$model->user_updater_id = \Auth::id();
             $model->save();
 
-            EventsUser::create([
-                'user_id' => Auth::id(),
-                'event_id' => $model->id,
-                'is_admin' => '1',
-                'owner_id' => Auth::id(),
-                'active' => '1',
-            ]);
-
-            Configuration::create([
-                'event_id' => $model->id,
-                'players' => '5',
-                'game_duration' => '10',
-            ]);
-
-            Auth::user()->update([
-                'selected_event' => $model->id
-            ]);
-
             return $model;
         });
     }
 
-    public function update(array $data, Event $model): Event
+    public function update(array $data, EventsUser $model): EventsUser
     {
 
         $model->fill($data);
@@ -105,7 +81,7 @@ class EventService
         return $model;
     }
 
-    public function delete(Event $model): ?bool
+    public function delete(EventsUser $model): ?bool
     {
         #$model->user_eraser_id = \Auth::id();
         $model->save();
@@ -115,11 +91,22 @@ class EventService
 
     public function lists(): array
     {
-        //return Cache::remember('Event_lists', config('cache.cache_time'), function () {
+        //return Cache::remember('EventsUser_lists', config('cache.cache_time'), function () {
 
-        return Event::orderBy('name')
+        return EventsUser::orderBy('name')
             ->pluck('name', 'id')
             ->toArray();
+        //});
+    }
+
+    public function listByUser($user_id): Collection
+    {
+        //return Cache::remember('EventsUser_lists', config('cache.cache_time'), function () {
+
+        return EventsUser::select(['*'])
+            ->whereUserId($user_id)
+            ->whereActive('1')
+            ->get();
         //});
     }
 }

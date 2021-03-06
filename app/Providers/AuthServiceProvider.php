@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Models\Configuration;
+use App\Policies\ConfigurationPolicy;
 use Illuminate\Foundation\Support\Providers\AuthServiceProvider as ServiceProvider;
 #use Laravel\Passport\Passport;
 
@@ -15,7 +17,8 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         'App\Models\User' => 'App\Policies\UserPolicy',
         'App\Models\Event' => 'App\Policies\EventPolicy',
-        //'App\Models\Configuration' => 'App\Policies\ConfigurationPolicy',
+        'App\Models\Configuration' => 'App\Policies\ConfigurationPolicy',
+        #Configuration::class => ConfigurationPolicy::class,
         //'App\Models\ManagementLink' => 'App\Policies\ManagementLinkPolicy',
     ];
 

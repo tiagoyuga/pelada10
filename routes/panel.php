@@ -1,7 +1,7 @@
 <?php
 
 Route::namespace('Panel')
-    ->middleware(['auth.panel', 'auth', 'checkFirstAccess'])
+    ->middleware(['auth.panel', 'auth', 'checkFirstAccess', 'checkHasEventCreated'])
     ->prefix('panel')
     ->group(function ($panel) {
 
@@ -16,7 +16,7 @@ Route::namespace('Panel')
         $panel->put('profile/{user}', 'ProfileController@update')->name('profileUpdate');
 
         /*panel/users*/
-        Route::group(['prefix' => '/',/*'middleware' => ['checkFirstAccess']*/], function ($panel) {
+        Route::group(['prefix' => '/', 'middleware' => [/*'checkHasEventCreated'*/]], function ($panel) {
             #users
             $panel->put('administrators/image', 'UserController@updateImageCrop')->name('administrators.updateImageCrop');
             $panel->get('administrators/crop/{id}', 'UserController@imageCrop')->name('users.imageCrop');
@@ -24,6 +24,12 @@ Route::namespace('Panel')
 
             /* panel/events */
             $panel->resource('events', EventController::class);
+
+            /* panel/configuration */
+            $panel->resource('configuration', ConfigurationController::class);#->only(['edit', 'update']);
+
+            /* panel/events_user */
+            $panel->resource('events_user', EventsUserController::class);
 
             # rotas para panel
 

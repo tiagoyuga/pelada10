@@ -5,6 +5,8 @@ namespace App\Http;
 use App\Http\Middleware\Authenticate;
 use App\Http\Middleware\AuthenticateInPanel;
 use App\Http\Middleware\CheckFirstAccess;
+use App\Http\Middleware\CheckHasEventCreated;
+use App\Http\Middleware\CheckHasEventSelected;
 use App\Http\Middleware\RedirectIfAuthenticated;
 use Illuminate\Auth\Middleware\AuthenticateWithBasicAuth;
 use Illuminate\Auth\Middleware\Authorize;
@@ -76,6 +78,8 @@ class Kernel extends HttpKernel
         'verified' => EnsureEmailIsVerified::class,
 
         'checkFirstAccess' => CheckFirstAccess::class,
+        'checkHasEventCreated' => CheckHasEventCreated::class,
+        'checkHasEventSelected' => CheckHasEventSelected::class,
 
         // JWT Implementation
         #'jwt.auth' => \Tymon\JWTAuth\Http\Middleware\Authenticate::class,

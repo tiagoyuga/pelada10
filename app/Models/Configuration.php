@@ -2,7 +2,7 @@
 /**
  * @package    Controller
  * @author     Tiago Teixeira de Sousa <tiagoteixeira2214@gmail.com>
- * @date       27/02/2021 03:15:01
+ * @date       27/02/2021 03:49:31
  */
 
 declare(strict_types=1);
@@ -13,7 +13,7 @@ use App\Traits\CreationDataTrait;
 use Illuminate\Database\Eloquent\Model;
 
 use Illuminate\Database\Eloquent\SoftDeletes;
-class Event extends Model
+class Configuration extends Model
 {
     use SoftDeletes;
 
@@ -29,7 +29,7 @@ class Event extends Model
      *
      * @var string
      */
-    protected $table = 'events';
+    protected $table = 'configuration';
 
     /**
      * The attributes that are mass assignable.
@@ -37,15 +37,13 @@ class Event extends Model
      * @var array
      */
     protected $fillable = [
-        'name',
-        'address',
-        'neighborhood',
-        'number',
-        'phone1',
-        'phone2',
-        'city_name',
-        'lat',
-        'long',
+        'event_id',
+        'players',
+        'game_duration',
+        'team1_name',
+        'team2_name',
+        'max_players_list_limit',
+        'count_players_leave_both',
         'user_creator_id',
         'user_updater_id',
         'user_eraser_id',
@@ -57,15 +55,13 @@ class Event extends Model
      * @var array
      */
     /*protected $guarded = [
-        'name',
-        'address',
-        'neighborhood',
-        'number',
-        'phone1',
-        'phone2',
-        'city_name',
-        'lat',
-        'long',
+        'event_id',
+        'players',
+        'game_duration',
+        'team1_name',
+        'team2_name',
+        'max_players_list_limit',
+        'count_players_leave_both',
         'user_creator_id',
         'user_updater_id',
         'user_eraser_id',
@@ -98,10 +94,4 @@ class Event extends Model
     # Relationships
 
     # Accessors & Mutators
-
-    public function eventsUser()
-    {
-        #return $this->hasOne(Event::class, 'event_id', 'id');
-        return $this->belongsTo(EventsUser::class, 'id', 'event_id');
-    }
 }

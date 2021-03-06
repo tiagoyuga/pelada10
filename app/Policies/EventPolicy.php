@@ -19,7 +19,7 @@ class EventPolicy
 
     public function before($user, $ability)
     {
-        return $user->is_dev;
+        if ($user->is_dev) return true;
     }
 
     /**

@@ -31,80 +31,59 @@
                         {{ csrf_field() }}
 
                         <!-- inicio dos campos -->
-                        
+
                             <div class="form-row">
                                 <div class="form-group col-md-3 @if ($errors->has('name')) has-error @endif">
                                     <label for="name">Nome</label>
                                     <input type="text" name="name" id="name" class="form-control"
-                                    		value="{{ old('name', (isset($item) ? $item->name : '')) }}">
+                                           value="{{ old('name', (isset($item) ? $item->name : '')) }}">
                                     {!! $errors->first('name','<span class="help-block m-b-none">:message</span>') !!}
                                 </div>
 
                                 <div class="form-group col-md-3 @if ($errors->has('address')) has-error @endif">
                                     <label for="address">Endereço</label>
                                     <input type="text" name="address" id="address" class="form-control"
-                                    		value="{{ old('address', (isset($item) ? $item->address : '')) }}">
+                                           value="{{ old('address', (isset($item) ? $item->address : '')) }}">
                                     {!! $errors->first('address','<span class="help-block m-b-none">:message</span>') !!}
                                 </div>
 
                                 <div class="form-group col-md-3 @if ($errors->has('neighborhood')) has-error @endif">
                                     <label for="neighborhood">Bairro</label>
                                     <input type="text" name="neighborhood" id="neighborhood" class="form-control"
-                                    		value="{{ old('neighborhood', (isset($item) ? $item->neighborhood : '')) }}">
+                                           value="{{ old('neighborhood', (isset($item) ? $item->neighborhood : '')) }}">
                                     {!! $errors->first('neighborhood','<span class="help-block m-b-none">:message</span>') !!}
                                 </div>
 
                                 <div class="form-group col-md-3 @if ($errors->has('number')) has-error @endif">
                                     <label for="number">Número</label>
                                     <input type="text" name="number" id="number" class="form-control"
-                                    		value="{{ old('number', (isset($item) ? $item->number : '')) }}">
+                                           value="{{ old('number', (isset($item) ? $item->number : '')) }}">
                                     {!! $errors->first('number','<span class="help-block m-b-none">:message</span>') !!}
                                 </div>
 
                                 <div class="form-group col-md-3 @if ($errors->has('phone1')) has-error @endif">
                                     <label for="phone1">Telefone 1</label>
                                     <input type="text" name="phone1" id="phone1" class="form-control"
-                                    		value="{{ old('phone1', (isset($item) ? $item->phone1 : '')) }}">
+                                           value="{{ old('phone1', (isset($item) ? $item->phone1 : '')) }}">
                                     {!! $errors->first('phone1','<span class="help-block m-b-none">:message</span>') !!}
                                 </div>
 
                                 <div class="form-group col-md-3 @if ($errors->has('phone2')) has-error @endif">
                                     <label for="phone2">Telefone 2</label>
                                     <input type="text" name="phone2" id="phone2" class="form-control"
-                                    		value="{{ old('phone2', (isset($item) ? $item->phone2 : '')) }}">
+                                           value="{{ old('phone2', (isset($item) ? $item->phone2 : '')) }}">
                                     {!! $errors->first('phone2','<span class="help-block m-b-none">:message</span>') !!}
                                 </div>
 
                                 <div class="form-group col-md-3 @if ($errors->has('city_name')) has-error @endif">
-                                    <label for="city_name">Localidade</label>
+                                    <label for="city_name">Cidade</label>
                                     <input type="text" name="city_name" id="city_name" class="form-control"
-                                    		value="{{ old('city_name', (isset($item) ? $item->city_name : '')) }}">
+                                           value="{{ old('city_name', (isset($item) ? $item->city_name : '')) }}">
                                     {!! $errors->first('city_name','<span class="help-block m-b-none">:message</span>') !!}
                                 </div>
                             </div>
 
-                            <div class="form-row">                            </div>
-
-                            <div class="form-row">                            </div>
-
-                            <div class="form-row">                            </div>
-
-                            <div class="form-row">                            </div>
-
-                            <div class="form-row">                            </div>
-
-                            <div class="form-row">                            </div>
-
-                            <div class="form-row">                            </div>
-
-                            <div class="form-row">                            </div>
-
-                            <div class="form-row">                            </div>
-
-                            <div class="form-row">
-                            </div>
-                            
-                        <!-- fim dos campos -->
+                            <!-- fim dos campos -->
 
                             <input id="routeTo" name="routeTo" type="hidden" value="{{ old('routeTo', 'index') }}">
                             <button class="btn btn-primary" id="bt_salvar" type="submit">

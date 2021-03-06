@@ -13,6 +13,8 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
+use phpDocumentor\Reflection\Types\Collection;
 
 
 #class User extends Model
@@ -142,8 +144,46 @@ class User extends Authenticatable
         return $info;
     }
 
-    public function selectedModule()
+    #evento selecionado
+    public function selectedEvent()
     {
-        #return $this->hasOne(UserType::class)->whereType(Auth::user()->selected_module);
+        return $this->belongsTo(Event::class, 'selected_event', 'id');
     }
+
+    #todas os eventos que o usuário participa
+    public function eventsUser()
+    {
+        #return $this->hasOne(EventsUser::class, 'event_id', 'selected_event');
+        return $this->belongsTo(EventsUser::class, 'id', 'user_id');
+    }
+
+    #lista com todos os eventos que o usuário participa
+    public function eventsList()
+    {
+        $eventsUser = $this->eventsUser()->get();
+        foreach ($eventsUser as $eUser) {
+            $eUser->event = $eUser->event;
+        }
+
+        return $eventsUser;
+    }
+
+    #configuracao do evento selecionado
+    public function selectedEventConfig()
+    {
+        return $this->hasOne(EventsUser::class, 'event_id', 'selected_event');
+    }
+
+    public function isAdminOfSelectedEvent()
+    {
+        $eventsUser = $this->belongsTo(EventsUser::class, 'selected_event', 'event_id');
+
+        return ($eventsUser->whereUserId($this->id)->whereIsAdmin(1)->count() > 0);
+    }
+
+    public function isDev()
+    {
+        return ($this->is_dev);
+    }
+
 }
