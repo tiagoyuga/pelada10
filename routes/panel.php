@@ -1,7 +1,7 @@
 <?php
 
 Route::namespace('Panel')
-    ->middleware(['auth.panel', 'auth', 'checkFirstAccess', 'checkHasEventCreated'])
+    ->middleware(['auth.panel', 'auth', 'checkFirstAccess', 'checkHasEventCreated', 'checkHasEventSelected'])
     ->prefix('panel')
     ->group(function ($panel) {
 
@@ -24,6 +24,7 @@ Route::namespace('Panel')
 
             /* panel/events */
             $panel->resource('events', EventController::class);
+            $panel->get('events/select/{event}', 'EventController@select')->name('events.select');
 
             /* panel/configuration */
             $panel->resource('configuration', ConfigurationController::class);#->only(['edit', 'update']);

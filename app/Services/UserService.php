@@ -9,12 +9,14 @@ declare(strict_types=1);
 
 namespace App\Services;
 
+use App\Models\Event;
 use App\Models\SocialAccount;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
@@ -206,5 +208,13 @@ class UserService
             'token' => $token,
             'generic_error' => null,
         ];
+    }
+
+    public function changeSelectedEvent(Event $event)
+    {
+
+        return Auth::user()->update([
+            'selected_event' => $event->id
+        ]);
     }
 }

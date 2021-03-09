@@ -19,7 +19,7 @@ class ConfigurationRule
      */
 	protected static $rules = [
 		'id' => 'required',
-        'event_id' => 'required',
+        #'event_id' => 'required',
         'players' => 'required',
         'game_duration' => 'nullable',
         'team1_name' => 'required|min:2|max:255',
@@ -40,7 +40,7 @@ class ConfigurationRule
     {
 
         return [
-            'event_id' => self::$rules['event_id'],
+            #'event_id' => self::$rules['event_id'],
             'players' => self::$rules['players'],
             'game_duration' => self::$rules['game_duration'],
             'team1_name' => self::$rules['team1_name'],

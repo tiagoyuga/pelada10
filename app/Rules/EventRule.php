@@ -19,7 +19,7 @@ class EventRule
      */
 	protected static $rules = [
 		'id' => 'required',
-        'name' => 'nullable|min:2|max:255',
+        'name' => 'required|min:2|max:255',
         'address' => 'nullable|min:2|max:255',
         'neighborhood' => 'nullable|min:2|max:255',
         'number' => 'nullable|min:2|max:255',

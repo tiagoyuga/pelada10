@@ -65,7 +65,9 @@
 
                                     @if($data->count())
                                         @foreach($data as $item)
-                                            <tr id="tr-{{ $item->id }}">
+
+                                            <tr id="tr-{{ $item->id }}"
+                                                class="{{ \Illuminate\Support\Facades\Auth::user()->selected_event == $item->id ? 'bg-primary' : '' }}">
                                                 <td style="text-align: center">
                                                     <div class="btn-group" role="group">
                                                         <button id="btnGroupDrop1" type="button"
@@ -76,11 +78,16 @@
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
                                                             <a class="dropdown-item"
-                                                               href="{{ route('events.edit', [$item->id]) }}">Editar</a>
-                                                            <link-destroy-component
-                                                                line-id="{{ 'tr-'.$item->id }}"
-                                                                link="{{ route('events.destroy', [$item->id]) }}">
-                                                            </link-destroy-component>
+                                                               href="{{ route('events.select', [$item->id]) }}">Selecionar</a>
+
+                                                            @can('update', $item)
+                                                                <a class="dropdown-item"
+                                                                   href="{{ route('events.edit', [$item->id]) }}">Editar</a>
+                                                                <link-destroy-component
+                                                                    line-id="{{ 'tr-'.$item->id }}"
+                                                                    link="{{ route('events.destroy', [$item->id]) }}">
+                                                                </link-destroy-component>
+                                                            @endif
                                                         </div>
                                                     </div>
                                                 </td>

@@ -14,10 +14,12 @@ use App\Http\Requests\EventStoreRequest;
 use App\Http\Requests\EventUpdateRequest;
 use App\Models\Event;
 use App\Services\EventService;
+use App\Services\UserService;
 use App\Traits\LogActivity;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\View\View;
 use JsValidator;
 
@@ -140,5 +142,19 @@ class EventController extends ApiBaseController
         $this->authorize('update', $event);
 
         return response()->json($event, 200, [], JSON_PRETTY_PRINT);
+    }
+
+    public function select(Event $event): RedirectResponse
+    {
+        $this->log(__METHOD__);
+        $this->authorize('changeSelectedEvent', $event);
+
+        $user = (new UserService())->changeSelectedEvent($event);
+
+        return redirect()->route('events.index')
+            ->with([
+                'message' => 'Atualizado com sucesso',
+                'messageType' => 's',
+            ]);
     }
 }

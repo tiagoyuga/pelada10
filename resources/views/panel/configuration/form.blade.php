@@ -34,28 +34,28 @@
 
                             <div class="form-row">
                                 <div class="form-group col-md-3 @if ($errors->has('players')) has-error @endif">
-                                    <label for="players">Players</label>
+                                    <label for="players">Jogadores por time</label>
                                     <input type="text" name="players" id="players" class="form-control"
                                            value="{{ old('players', (isset($item) ? $item->players : '')) }}">
                                     {!! $errors->first('players','<span class="help-block m-b-none">:message</span>') !!}
                                 </div>
 
                                 <div class="form-group col-md-3 @if ($errors->has('game_duration')) has-error @endif">
-                                    <label for="game_duration">Game_duration</label>
+                                    <label for="game_duration">Duração da partida</label>
                                     <input type="text" name="game_duration" id="game_duration" class="form-control"
                                            value="{{ old('game_duration', (isset($item) ? $item->game_duration : '')) }}">
                                     {!! $errors->first('game_duration','<span class="help-block m-b-none">:message</span>') !!}
                                 </div>
 
                                 <div class="form-group col-md-3 @if ($errors->has('team1_name')) has-error @endif">
-                                    <label for="team1_name">Team1_name</label>
+                                    <label for="team1_name">Nome do time 1</label>
                                     <input type="text" name="team1_name" id="team1_name" class="form-control"
                                            value="{{ old('team1_name', (isset($item) ? $item->team1_name : '')) }}">
                                     {!! $errors->first('team1_name','<span class="help-block m-b-none">:message</span>') !!}
                                 </div>
 
                                 <div class="form-group col-md-3 @if ($errors->has('team2_name')) has-error @endif">
-                                    <label for="team2_name">Team2_name</label>
+                                    <label for="team2_name">Nome do time 2</label>
                                     <input type="text" name="team2_name" id="team2_name" class="form-control"
                                            value="{{ old('team2_name', (isset($item) ? $item->team2_name : '')) }}">
                                     {!! $errors->first('team2_name','<span class="help-block m-b-none">:message</span>') !!}
@@ -63,7 +63,7 @@
 
                                 <div
                                     class="form-group col-md-3 @if ($errors->has('max_players_list_limit')) has-error @endif">
-                                    <label for="max_players_list_limit">Max_players_list_limit</label>
+                                    <label for="max_players_list_limit">Máximo de jogadores na lista</label>
                                     <input type="text" name="max_players_list_limit" id="max_players_list_limit"
                                            class="form-control"
                                            value="{{ old('max_players_list_limit', (isset($item) ? $item->max_players_list_limit : '')) }}">
@@ -72,7 +72,7 @@
 
                                 <div
                                     class="form-group col-md-3 @if ($errors->has('count_players_leave_both')) has-error @endif">
-                                    <label for="count_players_leave_both">Count_players_leave_both</label>
+                                    <label for="count_players_leave_both">Mínimo de jogadores para sairem ambas equipes</label>
                                     <input type="text" name="count_players_leave_both" id="count_players_leave_both"
                                            class="form-control"
                                            value="{{ old('count_players_leave_both', (isset($item) ? $item->count_players_leave_both : '')) }}">
@@ -93,8 +93,8 @@
                                     <i class="fa fa-save"></i>
                                     Salvar e adicionar novo
                                 </button>
-                            @else
-<!--                                <a class="btn btn-default" id="ln_listar_form"
+                        @else
+                            <!--                                <a class="btn btn-default" id="ln_listar_form"
                                    href=" route('configuration.index') ">
                                     <i class="fa fa-list-ul"></i>
                                     Listar

@@ -88,6 +88,8 @@ class ConfigurationController extends ApiBaseController
         $validatorRequest = new ConfigurationUpdateRequest();
         $validator = JsValidator::make($validatorRequest->rules(), $validatorRequest->messages());
 
+        #dd($validatorRequest->rules());
+
         return view('panel.configuration.form')
             ->with([
                 'item' => $configuration,
@@ -98,7 +100,6 @@ class ConfigurationController extends ApiBaseController
 
     public function update(ConfigurationUpdateRequest $request, Configuration $configuration): RedirectResponse
     {
-
         //SOMENTE ADMIN PODE ALTERAR
         $this->log(__METHOD__);
 

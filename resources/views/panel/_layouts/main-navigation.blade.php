@@ -37,10 +37,11 @@
                         <ul role="menu" class="dropdown-menu">
 
                             <li class="bg-muted">
-                                <a href="#">Usuários</a>
-                            </li>
-                            <li class="bg-muted">
                                 <a href="{{ route('configuration.edit', Auth::user()->selectedEventConfig ? Auth::user()->selectedEventConfig->id : 0) }}">Configurações</a>
+                            </li>
+
+                            <li class="bg-muted">
+                                <a href="#">Usuários</a>
                             </li>
 
                             <li class="bg-muted">

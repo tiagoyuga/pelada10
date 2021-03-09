@@ -40,7 +40,7 @@ class EventService
         $query->join('events_user', 'events_user.event_id', '=', 'events.id')
             ->where('events_user.user_id', '=', Auth::id());
 
-        return $query;
+        return $query->select(['events.*']);
     }
 
     public function paginate(int $limit): LengthAwarePaginator

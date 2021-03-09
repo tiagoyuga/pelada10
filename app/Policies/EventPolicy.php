@@ -55,8 +55,14 @@ class EventPolicy
      */
     public function update(User $user, Event $event)
     {
+        $isEventAdmin = in_array($event->id, $user->eventsUser->whereIsAdmin('1')->pluck('event_id')->toArray());
+        return ($isEventAdmin);
+    }
 
-        return true;
+    public function changeSelectedEvent(User $user, Event $event)
+    {
+        $eventsUser = $user->eventsUser->pluck('event_id')->toArray();
+        return (in_array($event->id, $eventsUser));
     }
 
     /**
@@ -68,7 +74,7 @@ class EventPolicy
      */
     public function delete(User $user, Event $event)
     {
-
-        return true;
+        $isEventAdmin = in_array($event->id, $user->eventsUser->whereIsAdmin('1')->pluck('event_id')->toArray());
+        return ($isEventAdmin);
     }
 }
