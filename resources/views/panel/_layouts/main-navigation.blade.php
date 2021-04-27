@@ -7,7 +7,7 @@
     <nav class="navbar navbar-expand-lg navbar-static-top" role="navigation">
         {{--<nav class="navbar-default navbar-static-side" role="navigation">--}}
 
-        <a href="{{ route('dashboard') }}" class="navbar-brand text-center">
+        <a href="{{ route('home') }}" class="navbar-brand text-center">
             {{ env('APP_NAME') }}
         </a>
 
@@ -20,7 +20,7 @@
         <div class="navbar-collapse collapse" id="navbar">
             <ul class="nav navbar-nav mr-auto">
 
-                <li class="{{ isActiveRoute('dashboard') }}">
+                <li class="{{ isActiveRoute('home') }}">
                     <a aria-expanded="false" role="button" href="{{ route('home') }}">
                         <i class="fa fa-home"></i>
                         <span class="nav-label">Início</span>
@@ -41,7 +41,7 @@
                             </li>
 
                             <li class="bg-muted">
-                                <a href="#">Usuários</a>
+                                <a href="{{ route('users.index') }}">Usuários</a>
                             </li>
 
                             <li class="bg-muted">
@@ -66,7 +66,7 @@
                     </a>
                     <ul role="menu" class="dropdown-menu">
                         <li><a href="{{ route('events.index') }}">Grupos (Eventos)</a></li>
-                        <li><a href="#">Dias de Futebol</a>
+                        <li><a href="{{ route('games_days.index') }}">Dias de Futebol</a>
                         <li><a href="#">Lista de Atletas</a>
                         <li><a href="#">Histórico de Jogos</a>
                         <li><a href="#">Participantes</a>

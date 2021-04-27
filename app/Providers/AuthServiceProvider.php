@@ -18,7 +18,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\User' => 'App\Policies\UserPolicy',
         'App\Models\Event' => 'App\Policies\EventPolicy',
         'App\Models\Configuration' => 'App\Policies\ConfigurationPolicy',
-        #Configuration::class => ConfigurationPolicy::class,
+        'App\Models\GamesDay' => 'App\Policies\GamesDayPolicy',
         //'App\Models\ManagementLink' => 'App\Policies\ManagementLinkPolicy',
     ];
 

@@ -87,7 +87,7 @@
                                 <div class="form-group col-md-3 @if ($errors->has('birth')) has-error @endif">
                                     <label for="birth">Data de nascimento</label>
                                     <input type="text" name="birth" id="birth" class="form-control"
-                                           value="{{ old('birth', (isset($item) ? $item->birth->format('d/m/Y') : '')) }}">
+                                           value="{{ old('birth', (isset($item) ? \Carbon\Carbon::parse($item->birth)->format('d/m/Y') : '')) }}">
                                     {!! $errors->first('birth','<span class="help-block m-b-none">:message</span>') !!}
                                 </div>
 
@@ -146,6 +146,8 @@
         $("#phone1").mask("(99) 99999-9999");
         $("#phone2").mask("(99) 99999-9999");
         $("#whatsapp").mask("(99) 99999-9999");
+
+        $("#birth").datepicker();
 
     </script>
 @endsection

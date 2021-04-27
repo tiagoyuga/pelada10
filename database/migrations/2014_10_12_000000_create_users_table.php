@@ -39,6 +39,7 @@ class CreateUsersTable extends Migration
 
             $table->boolean('active')->default(1);
             $table->boolean('is_dev')->default(0);
+            $table->boolean('is_temporary')->default(0);
 
             $table->integer('selected_event')->nullable();
 

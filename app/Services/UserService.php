@@ -10,6 +10,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Models\Event;
+use App\Models\EventsUser;
 use App\Models\SocialAccount;
 use App\Models\User;
 use Carbon\Carbon;
@@ -48,6 +49,16 @@ class UserService
         return $this->buildQuery()->paginate($limit);
     }
 
+    public function getLinkedUsers(int $limit): LengthAwarePaginator
+    {
+        $data = $this->buildQuery();
+
+        $data = $data->join('events_user', 'events_user.user_id', 'users.id')
+            ->where('events_user.event_id', Auth::user()->selectedEvent->id);
+
+        return $data->paginate($limit);
+    }
+
     public function all(): Collection
     {
 
@@ -81,10 +92,35 @@ class UserService
         });
     }
 
+    public function createLinkedUser(array $data): User
+    {
+        return DB::transaction(function () use ($data) {
+
+            if(isset($data['birth']) && !empty($data['birth'])) {
+                $data['birth'] = Carbon::createFromFormat('d/m/Y', $data['birth'])->format('Y-m-d');
+            }
+
+            $model = new User();
+            $model->fill($data);
+            $model->user_creator_id = Auth::id();
+            $model->user_updater_id = Auth::id();
+            $model->is_temporary = 1;
+            $model->save();
+
+            #vincular ao evento
+            $userEvent = new EventsUser();
+            $userEvent->user_id = $model->id;
+            $userEvent->event_id = Auth::user()->selectedEvent->id;
+            $userEvent->save();
+
+            return $model;
+        });
+    }
+
     public function update(array $data, User $model): User
     {
         if(isset($data['birth']) && !empty($data['birth'])) {
-            $data['birth'] = Carbon::parse($data['birth'])->format('Y-m-d');
+            $data['birth'] = Carbon::parse($data['birth'])->format('Y-d-m');
         }
 
         $model->fill($data);

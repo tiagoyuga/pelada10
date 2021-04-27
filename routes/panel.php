@@ -32,6 +32,9 @@ Route::namespace('Panel')
             /* panel/events_user */
             $panel->resource('events_user', EventsUserController::class);
 
+            /* panel/games_days */
+            $panel->resource('games_days', GamesDayController::class);
+
             # rotas para panel
 
         });

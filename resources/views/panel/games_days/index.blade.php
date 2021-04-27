@@ -4,7 +4,7 @@
 
 @section('content')
 
-    @include('panel.users.nav')
+    @include('panel.games_days.nav')
 
     @php
 
@@ -23,8 +23,8 @@
                         <h5>@yield('_titulo_pagina_')</h5>
 
                         <div class="ibox-tools">
-                            @if(Auth::user()->can('create', \App\Models\User::class))
-                                <a href="{{ route('users.create') }}" class="btn btn-primary {{--btn-xs--}}">
+                            @if(Auth::user()->can('create', \App\Models\GamesDay::class))
+                                <a href="{{ route('games_days.create') }}" class="btn btn-primary {{--btn-xs--}}">
                                     <i class="fa fa-plus"></i> Cadastrar
                                 </a>
                             @endif
@@ -34,7 +34,7 @@
                     <div class="ibox-content">
 
                         <div class="m-b-lg">
-                            <form method="get" id="frm_search" action="{{ route('users.index') }}">
+                            <form method="get" id="frm_search" action="{{ route('games_days.index') }}">
                                 @include('panel._assets.basic-search')
                             </form>
                         </div>
@@ -48,16 +48,7 @@
                                     <thead>
                                     <tr>
                                         <th style="width: 100px; text-align: center">Ações</th>
-
-                                        <th>Nome</th>
-                                        <th>E-mail</th>
-                                        <th>Apelido</th>
-                                        <th>Número da Camisa</th>
-                                        <th>Telefone 1</th>
-                                        <th>Telefone 2</th>
-                                        <th>Whatsapp</th>
-                                        <th>Imagem</th>
-                                        <th>Data de nascimento</th>
+                                        <th>Dia dos jogos</th>
                                         <th class="hidden-xs hidden-sm" style="width: 150px;">Criado em</th>
                                     </tr>
                                     </thead>
@@ -75,37 +66,16 @@
                                                             Ações
                                                         </button>
                                                         <div class="dropdown-menu" aria-labelledby="btnGroupDrop1">
-                                                            <a class="dropdown-item" href="{{ route('users.edit', [$item->id]) }}">Editar</a>
+                                                            <a class="dropdown-item"
+                                                               href="{{ route('games_days.edit', [$item->id]) }}">Editar</a>
                                                             <link-destroy-component
                                                                 line-id="{{ 'tr-'.$item->id }}"
-                                                                link="{{ route('users.destroy', [$item->id]) }}">
+                                                                link="{{ route('games_days.destroy', [$item->id]) }}">
                                                             </link-destroy-component>
                                                         </div>
                                                     </div>
                                                 </td>
-
-                                                <td>{{ $item->name }}</td>
-                                                <td>{{ $item->email }}</td>
-                                                <td>{{ $item->nickname }}</td>
-                                                <td>{{ $item->shirt_number }}</td>
-                                                <td>{{ $item->phone1 }}</td>
-                                                <td>{{ $item->phone2 }}</td>
-                                                <td>{{ $item->whatsapp }}</td>
-
-                                                <td class="text-center">
-                                                    @if($item->image)
-                                                        <a href="{{ asset('images/'.$item->image) }}" target="_blank">
-                                                            <img src="{{ asset('images/100/'.$item->image) }}">
-                                                        </a>
-                                                        <br/>
-                                                        <a href="{{ route('users.imageCrop', [$item->id]) }}">
-                                                            <i class="fa fa-crop"></i>
-                                                            Recortar
-                                                        </a>
-                                                    @endif
-                                                </td>
-
-                                                <td>{{ \Carbon\Carbon::parse($item->birth)->format('d/m/Y') }}</td>
+                                                <td>{{ $item->game_day->format('d/m/Y - H:i') }}</td>
                                                 <td class="hidden-xs hidden-sm">{{ $item->created_at->format('d/m/Y H:i') }}</td>
 
                                             </tr>
@@ -120,7 +90,7 @@
                                 <div class="alert alert-danger">
                                     Não temos nada para exibir. Caso tenha realizado uma busca você pode realizar
                                     uma nova com outros termos ou
-                                    <a class="alert-link" href="{{ route('users.index') }}">
+                                    <a class="alert-link" href="{{ route('games_days.index') }}">
                                         limpar sua pesquisa.
                                     </a>
                                 </div>
