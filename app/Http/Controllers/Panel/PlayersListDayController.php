@@ -2,7 +2,7 @@
 /**
  * @package    Controller
  * @author     Tiago Teixeira de Sousa <tiagoteixeira2214@gmail.com>
- * @date       09/03/2021 02:54:27
+ * @date       27/04/2021 01:27:44
  */
 
 declare(strict_types=1);
@@ -10,10 +10,11 @@ declare(strict_types=1);
 namespace App\Http\Controllers\Panel;
 
 use App\Http\Controllers\Api\ApiBaseController;
-use App\Http\Requests\GamesDayStoreRequest;
-use App\Http\Requests\GamesDayUpdateRequest;
-use App\Models\GamesDay;
+use App\Http\Requests\PlayersListDayStoreRequest;
+use App\Http\Requests\PlayersListDayUpdateRequest;
+use App\Models\PlayersListDay;
 use App\Services\GamesDayService;
+use App\Services\PlayersListDayService;
 use App\Traits\LogActivity;
 use Exception;
 use Illuminate\Http\JsonResponse;
@@ -21,18 +22,18 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\View\View;
 use JsValidator;
 
-class GamesDayController extends ApiBaseController
+class PlayersListDayController extends ApiBaseController
 {
     use LogActivity;
 
     private $service;
     private $label;
 
-    public function __construct(GamesDayService $service)
+    public function __construct(PlayersListDayService $service)
     {
 
         $this->service = $service;
-        $this->label = 'Dias dos Jogos';
+        $this->label = 'Lista de Atletas';
     }
 
     public function index(): View
@@ -40,13 +41,13 @@ class GamesDayController extends ApiBaseController
 
         $this->log(__METHOD__);
 
-        $this->authorize('viewAny', GamesDay::class);
+        $this->authorize('viewAny', PlayersListDay::class);
 
-        $data = $this->service->getLinkedEvent(20);
+        $eventsDays = (new GamesDayService())->getAllLinkedEvent();
 
-        return view('panel.games_days.index')
+        return view('panel.players_list_day.index')
             ->with([
-                'data' => $data,
+                'eventsDays' => $eventsDays,
                 'label' => $this->label,
             ]);
     }
@@ -56,75 +57,75 @@ class GamesDayController extends ApiBaseController
 
         $this->log(__METHOD__);
 
-        $this->authorize('create', GamesDay::class);
+        $this->authorize('create', PlayersListDay::class);
 
-        $validatorRequest = new GamesDayStoreRequest();
+        $validatorRequest = new PlayersListDayStoreRequest();
         $validator = JsValidator::make($validatorRequest->rules(), $validatorRequest->messages());
 
-        return view('panel.games_days.form')
+        return view('panel.players_list_day.form')
             ->with([
                 'validator' => $validator,
                 'label' => $this->label,
             ]);
     }
 
-    public function store(GamesDayStoreRequest $gamesDayStoreRequest)
+    public function store(PlayersListDayStoreRequest $playersListDayStoreRequest)
     {
 
-        $this->service->create($gamesDayStoreRequest->all());
+        $this->service->create($playersListDayStoreRequest->all());
 
-        return redirect()->route('games_days.' . request('routeTo'))
+        return redirect()->route('players_list_day.' . request('routeTo'))
             ->with([
                 'message' => 'Criado com sucesso',
                 'messageType' => 's',
             ]);
     }
 
-    public function edit(GamesDay $gamesDay): View
+    public function edit(PlayersListDay $playersListDay): View
     {
 
         $this->log(__METHOD__);
 
-        $this->authorize('update', $gamesDay);
+        $this->authorize('update', $playersListDay);
 
-        $validatorRequest = new GamesDayUpdateRequest();
+        $validatorRequest = new PlayersListDayUpdateRequest();
         $validator = JsValidator::make($validatorRequest->rules(), $validatorRequest->messages());
 
-        return view('panel.games_days.form')
+        return view('panel.players_list_day.form')
             ->with([
-                'item' => $gamesDay,
+                'item' => $playersListDay,
                 'label' => $this->label,
                 'validator' => $validator,
             ]);
     }
 
-    public function update(GamesDayUpdateRequest $request, GamesDay $gamesDay): RedirectResponse
+    public function update(PlayersListDayUpdateRequest $request, PlayersListDay $playersListDay): RedirectResponse
     {
-dd('asda');
+
         $this->log(__METHOD__);
 
-        $this->service->update($request->all(), $gamesDay);
+        $this->service->update($request->all(), $playersListDay);
 
-        return redirect()->route('games_days.index')
+        return redirect()->route('players_list_day.index')
             ->with([
                 'message' => 'Atualizado com sucesso',
                 'messageType' => 's',
             ]);
     }
 
-    public function destroy(GamesDay $gamesDay): JsonResponse
+    public function destroy(PlayersListDay $playersListDay): JsonResponse
     {
 
         $this->log(__METHOD__);
 
         try {
 
-            if (!\Auth::user()->can('delete', $gamesDay)) {
+            if (!\Auth::user()->can('delete', $playersListDay)) {
 
                 return $this->sendUnauthorized();
             }
 
-            $this->service->delete($gamesDay);
+            $this->service->delete($playersListDay);
 
             return $this->sendResponse([]);
 
@@ -134,12 +135,12 @@ dd('asda');
         }
     }
 
-    public function show(GamesDay $gamesDay): JsonResponse
+    public function show(PlayersListDay $playersListDay): JsonResponse
     {
 
         $this->log(__METHOD__);
-        $this->authorize('update', $gamesDay);
+        $this->authorize('update', $playersListDay);
 
-        return response()->json($gamesDay, 200, [], JSON_PRETTY_PRINT);
+        return response()->json($playersListDay, 200, [], JSON_PRETTY_PRINT);
     }
 }

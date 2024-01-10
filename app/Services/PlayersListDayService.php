@@ -2,28 +2,26 @@
 /**
  * @package    Services
  * @author     Tiago Teixeira de Sousa <tiagoteixeira2214@gmail.com>
- * @date       09/03/2021 02:54:27
+ * @date       27/04/2021 01:27:44
  */
 
 declare(strict_types=1);
 
 namespace App\Services;
 
-use App\Models\GamesDay;
-use Carbon\Carbon;
+use App\Models\PlayersListDay;
 use Illuminate\Contracts\Pagination\LengthAwarePaginator;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 
-class GamesDayService
+class PlayersListDayService
 {
 
     private function buildQuery(): Builder
     {
 
-        $query = GamesDay::query();
+        $query = PlayersListDay::query();
 
         $query->when(request('id'), function ($query, $id) {
 
@@ -44,39 +42,23 @@ class GamesDayService
         return $this->buildQuery()->paginate($limit);
     }
 
-    public function getLinkedEvent(int $limit): LengthAwarePaginator
-    {
-        $data = $this->buildQuery();
-        $data = $data->where('event_id', Auth::user()->selectedEvent->id);
-        return $data->paginate($limit);
-    }
-
-    public function getAllLinkedEvent(): Collection
-    {
-        $data = $this->buildQuery();
-        $data = $data->where('event_id', Auth::user()->selectedEvent->id);
-        return $data->get();
-    }
-
     public function all(): Collection
     {
 
         return $this->buildQuery()->get();
     }
 
-    public function find(int $id): ?GamesDay
+    public function find(int $id): ?PlayersListDay
     {
-        return GamesDay::find($id);
+        return PlayersListDay::find($id);
     }
 
-    public function create(array $data): GamesDay
+    public function create(array $data): PlayersListDay
     {
+
         return DB::transaction(function () use ($data) {
 
-            $data['game_day'] = Carbon::parse($data['game_day'])->format('Y-m-d')." ".$data['hour'].":00";
-            $data['event_id'] = Auth::user()->selected_event;
-
-            $model = new GamesDay();
+            $model = new PlayersListDay();
             $model->fill($data);
             #$model->user_creator_id = \Auth::id();
             #$model->user_updater_id = \Auth::id();
@@ -86,7 +68,7 @@ class GamesDayService
         });
     }
 
-    public function update(array $data, GamesDay $model): GamesDay
+    public function update(array $data, PlayersListDay $model): PlayersListDay
     {
 
         $model->fill($data);
@@ -96,7 +78,7 @@ class GamesDayService
         return $model;
     }
 
-    public function delete(GamesDay $model): ?bool
+    public function delete(PlayersListDay $model): ?bool
     {
         #$model->user_eraser_id = \Auth::id();
         $model->save();
@@ -106,7 +88,7 @@ class GamesDayService
 
     public function lists(): array
     {
-        return GamesDay::orderBy('name')
+        return PlayersListDay::orderBy('name')
             ->pluck('name', 'id')
             ->toArray();
 

@@ -20,6 +20,7 @@ class AuthServiceProvider extends ServiceProvider
         'App\Models\Configuration' => 'App\Policies\ConfigurationPolicy',
         'App\Models\GamesDay' => 'App\Policies\GamesDayPolicy',
         //'App\Models\ManagementLink' => 'App\Policies\ManagementLinkPolicy',
+        'App\Models\PlayersListDay' => 'App\Policies\PlayersListDayPolicy',
     ];
 
     /**

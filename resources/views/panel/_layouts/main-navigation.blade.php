@@ -67,7 +67,7 @@
                     <ul role="menu" class="dropdown-menu">
                         <li><a href="{{ route('events.index') }}">Grupos (Eventos)</a></li>
                         <li><a href="{{ route('games_days.index') }}">Dias de Futebol</a>
-                        <li><a href="#">Lista de Atletas</a>
+                        <li><a href="{{ route('players_list_day.index') }}">Lista de Atletas</a>
                         <li><a href="#">Histórico de Jogos</a>
                         <li><a href="#">Participantes</a>
                         </li>

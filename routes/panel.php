@@ -35,6 +35,10 @@ Route::namespace('Panel')
             /* panel/games_days */
             $panel->resource('games_days', GamesDayController::class);
 
+            /* panel/players_list_day */
+            #$panel->resource('players_list_day', PlayersListDayController::class)->only('index');
+            $panel->resource('players_list_day', PlayersListDayController::class);
+
             # rotas para panel
 
         });
